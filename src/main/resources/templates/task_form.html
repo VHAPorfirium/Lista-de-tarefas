@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${task.id == null ? 'Nova Tarefa' : 'Editar Tarefa'}">Formulário</title>
+</head>
+<body>
+<h1 th:text="${task.id == null ? 'Criar Nova Tarefa' : 'Editar Tarefa'}">Formulário</h1>
+
+<!-- Aqui o ternário: se não tem ID, POST em /tasks; se tem, POST em /tasks/{id} -->
+<form th:action="${task.id == null}
+                   ? @{/tasks}
+                   : @{/tasks/{id}(id=${task.id})}"
+      th:object="${task}" method="post">
+
+    <div>
+        <label for="title">Título:</label>
+        <input type="text" id="title" th:field="*{title}" required/>
+    </div>
+    <div>
+        <label for="description">Descrição:</label>
+        <textarea id="description" th:field="*{description}"></textarea>
+    </div>
+    <div>
+        <label for="dueDate">Data de Conclusão:</label>
+        <input type="date" id="dueDate" th:field="*{dueDate}" required/>
+    </div>
+    <div>
+        <button type="submit"
+                th:text="${task.id == null ? 'Salvar' : 'Atualizar'}">Salvar</button>
+        <a th:href="@{/tasks}">Cancelar</a>
+    </div>
+</form>
+</body>
+</html>

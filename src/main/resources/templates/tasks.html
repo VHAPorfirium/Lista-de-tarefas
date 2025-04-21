@@ -1,0 +1,46 @@
+<!-- src/main/resources/templates/tasks.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h1>Minhas Tarefas</h1>
+
+<p>
+    <a th:href="@{/tasks/new}">+ Nova Tarefa</a>
+</p>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Título</th>
+        <th>Descrição</th>
+        <th>Data de Conclusão</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task, iterStat : ${tasks}">
+        <td th:text="${iterStat.index + 1}">1</td>
+        <td th:text="${task.title}">Título da tarefa</td>
+        <td th:text="${task.description}">Descrição da tarefa</td>
+        <td th:text="${#temporals.format(task.dueDate, 'dd/MM/yyyy')}">01/01/2025</td>
+        <td>
+            <a th:href="@{'/tasks/edit/' + ${task.id}}">Editar</a> |
+            <a th:href="@{'/tasks/delete/' + ${task.id}}"
+               onclick="return confirm('Excluir esta tarefa?');">
+                Excluir
+            </a>
+        </td>
+    </tr>
+    <tr th:if="${tasks.empty}">
+        <td colspan="5">Nenhuma tarefa cadastrada.</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
